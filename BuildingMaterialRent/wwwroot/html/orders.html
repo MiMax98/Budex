@@ -1,0 +1,114 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Budex</title>
+</head>
+<body>
+    <header id="app-header">
+
+        <nav class="navbar navbar-dark bg-info navbar-expand-md">
+            <a class="navbar-brand" href="#"> Budex</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainmenu">
+                <ul class="navbar-nav">
+                    <li v-if="isSignedIn && userInfo && userInfo.role === 'Admin'" class="nav-item">
+                        <a class="nav-link" href="/app/orders">Zamówienia</a>
+                    </li>
+                    <li class="nav-item dropdown" @mouseover="showCategories=true" @mouseleave="showCategories=false">
+                        <a class="nav-link dropdown-toggle" href="/app/products" role="button" aria-expanded="false" id="submenu" aria-haspopup="true">Produkty</a>
+                        <div class="dropdown-menu visible-menu" aria-labelledby="submenu" v-if="showCategories">
+                            <a class="dropdown-item" v-bind:href="getUrl(cat)" v-for="cat in categories">{{cat.name}}</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/contact">Kontakt</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/basket">Koszyk</a>
+                    </li>
+                    <li v-if="!isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/login">Zaloguj</a>
+                    </li>
+                    <li v-if="!isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/register">Zarejestruj</a>
+                    </li>
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link">Witaj {{userInfo.userName}}!</a>
+                    </li>
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link" href="#" v-on:click.prevent="logOut">Wyloguj</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </header>
+
+    <div id="app-orders" class="container">
+        <header>
+            <h1 class="display-4">Zamówienia</h1>
+        </header>
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Użytkownik</th>
+                            <th>Data złożenia</th>
+                            <th>Data odbioru</th>
+                            <th>Data zwrotu</th>
+                            <th>Status</th>
+                            <th>Cena</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="order in orders">
+                            <td>{{order.orderId}}</td>
+                            <td>{{order.user.firstName}} {{order.user.lastName}}</td>
+                            <td>{{formatDate(order.orderDate)}}</td>
+                            <td>{{formatDate(order.pickupDate)}}</td>
+                            <td>{{formatDate(order.dueDate)}}</td>
+                            <td><div class="badge" v-bind:class="{'badge-primary': order.status === 2, 'badge-success': order.status === 3, 'badge-warning': order.status === 4}">{{getStatus(order.status)}}</div></td>
+                            <td><strong>{{order.total}} zł</strong></td>
+                            <td>
+                                <button v-on:click="pickupOrder(order.orderId)" v-if="order.status === 2" type="button" class="btn btn-success">
+                                    Wydaj
+                                </button>
+
+                                <button v-on:click="returnOrder(order.orderId)" v-if="order.status === 3" type="button" class="btn btn-success">
+                                    Odbierz
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="/js/vue.global.js"></script>
+    <script src="/js/axios.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/products.js"></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/orders.js"></script>
+
+</body>
+</html>

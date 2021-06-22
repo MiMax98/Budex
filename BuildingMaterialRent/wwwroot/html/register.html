@@ -1,0 +1,104 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Budex</title>
+</head>
+<body>
+    <header id="app-header">
+
+        <nav class="navbar navbar-dark bg-info navbar-expand-md">
+            <a class="navbar-brand" href="#"> Budex</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainmenu">
+                <ul class="navbar-nav">
+                    <li v-if="isSignedIn && userInfo && userInfo.role === 'Admin'" class="nav-item">
+                        <a class="nav-link" href="/app/orders">Zamówienia</a>
+                    </li>
+                    <li class="nav-item dropdown" @mouseover="showCategories=true" @mouseleave="showCategories=false">
+                        <a class="nav-link dropdown-toggle" href="/app/products" role="button" aria-expanded="false" id="submenu" aria-haspopup="true">Produkty</a>
+                        <div class="dropdown-menu visible-menu" aria-labelledby="submenu" v-if="showCategories">
+                            <a class="dropdown-item" v-bind:href="getUrl(cat)" v-for="cat in categories">{{cat.name}}</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/contact">Kontakt</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/basket">Koszyk</a>
+                    </li>
+                    <li v-if="!isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/login">Zaloguj</a>
+                    </li>
+                    <li v-if="!isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/register">Zarejestruj</a>
+                    </li>
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link">Witaj {{userInfo.userName}}!</a>
+                    </li>
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link" href="#" v-on:click.prevent="logOut">Wyloguj</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </header>
+    <main id="app-register" class="container">
+        <header>
+            <h1 class="display-4">Zarejestruj się</h1>
+        </header>
+        <form @submit="register">
+            <div class="error-message" v-if="validation.General" v-for="v in validation.General">{{v}}</div>
+            <div class="form-group">
+                <label for="InputFirstname">Imię</label>
+                <input v-model="user.firstName" type="text" class="form-control" id="InputFirstname" placeholder="Podaj imię">
+                <div class="error-message" v-if="validation.FirstName" v-for="v in validation.FirstName">{{v}}</div>
+            </div>
+            <div class="form-group">
+                <label for="InputLastName">Nazwisko</label>
+                <input v-model="user.lastName" type="text" class="form-control" id="InputLastName" placeholder="Podaj nazwisko">
+                <div class="error-message" v-if="validation.LastName" v-for="v in validation.LastName">{{v}}</div>
+            </div>
+            <div class="form-group">
+                <label for="InputEmail1">E-mail</label>
+                <input v-model="user.email" type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp" placeholder="Podaj email">
+                <div class="error-message" v-if="validation.Email" v-for="v in validation.Email">{{v}}</div>
+            </div>
+            <div class="form-group">
+                <label for="InputPassword1">Hasło</label>
+                <input v-model="user.password" type="password" class="form-control" id="InputPassword1" placeholder="Podaj hasło">
+                <div class="error-message" v-if="validation.Password" v-for="v in validation.Password">{{v}}</div>
+            </div>
+            <div class="form-group">
+                <label for="RepeatPassword">Powtórz hasło</label>
+                <input v-model="user.confirmPassword" type="password" class="form-control" id="RepeatPassword" placeholder="Powtórz hasło">
+                <div class="error-message" v-if="validation.ConfirmPassword" v-for="v in validation.ConfirmPassword">{{v}}</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+        </form>
+
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="/js/vue.global.js"></script>
+    <script src="/js/axios.js"></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/register.js"></script>
+
+</body>
+</html>

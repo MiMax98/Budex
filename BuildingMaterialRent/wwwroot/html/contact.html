@@ -1,0 +1,108 @@
+﻿<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header id="app-header">
+
+        <nav class="navbar navbar-dark bg-info navbar-expand-md">
+            <a class="navbar-brand" href="#"> Budex</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Przełącznik nawigacji">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainmenu">
+                <ul class="navbar-nav">
+                    <li v-if="isSignedIn && userInfo && userInfo.role === 'Admin'" class="nav-item">
+                        <a class="nav-link" href="/app/orders">Zamówienia</a>
+                    </li>
+                    <li class="nav-item dropdown" @mouseover="showCategories=true" @mouseleave="showCategories=false">
+                        <a class="nav-link dropdown-toggle" href="/app/products" role="button" aria-expanded="false" id="submenu" aria-haspopup="true">Produkty</a>
+                        <div class="dropdown-menu visible-menu" aria-labelledby="submenu" v-if="showCategories">
+                            <a class="dropdown-item" v-bind:href="getUrl(cat)" v-for="cat in categories">{{cat.name}}</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/contact">Kontakt</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/basket">Koszyk</a>
+                    </li>
+                    <li v-if="!isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/login">Zaloguj</a>
+                    </li>
+                    <li v-if="!isSignedIn" class="nav-item">
+                        <a class="nav-link" href="/app/register">Zarejestruj</a>
+                    </li>
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link">Witaj {{userInfo.userName}}!</a>
+                    </li>
+                    <li v-if="isSignedIn" class="nav-item">
+                        <a class="nav-link" href="#" v-on:click.prevent="logOut">Wyloguj</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    </header>
+    <section id="contact">
+        <div class="container">
+            <h1 class="text-center display-4">Kontakt</h1>
+            <p class="text-center w-75 m-auto">Zamówienia będą wydawane oraz odbierane w siedzibie naszej firmy</p>
+            <p class="text-center w-75 m-auto">Zapraszamy od godziny 8 do 18</p>
+            <p class="text-center w-75 m-auto"></p>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 my-5">
+                    <div class="card border-0">
+                        <div class="card-body text-center">
+                            <i class="fa fa-phone fa-5x mb-3" aria-hidden="true"></i>
+                            <h4 class="text-uppercase mb-5">Zadzwoń do nas</h4>
+                            <p>+48 505 303 202,+48 123 234 345</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-4 my-5">
+                    <div class="card border-0">
+                        <div class="card-body text-center">
+                            <i class="fa fa-map-marker fa-5x mb-3" aria-hidden="true"></i>
+                            <h4 class="text-uppercase mb-5">Adres biura</h4>
+                            <address>Rzeszów, ul. Biurowa 21 </address>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-4 my-5">
+                    <div class="card border-0">
+                        <div class="card-body text-center">
+                            <i class="fa fa-globe fa-5x mb-3" aria-hidden="true"></i>
+                            <h4 class="text-uppercase mb-5">email</h4>
+                            <p>budexpoland@mail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="/js/vue.global.js"></script>
+    <script src="/js/axios.js"></script>
+    <script src="/js/header.js"></script>
+</body>
+</html>

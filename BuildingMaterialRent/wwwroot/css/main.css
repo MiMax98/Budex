@@ -1,0 +1,63 @@
+﻿body {
+    background-color: white;
+    color: black;
+    font-size: 17px;
+}
+
+.products {
+    text-align: center;
+}
+
+.products img {
+    object-fit: scale-down;
+    height: 350px;
+    padding: 30px 10px;
+}
+
+.products figcaption {
+    margin-top: 8px;
+    position: absolute;
+    bottom: 0;
+    text-decoration:none;
+    color: CaptionText;
+}
+
+.products p {
+    margin-bottom: 30px;
+}
+
+.visible-menu {
+    display: block;
+}
+
+.basket-line div {
+    align-self:center;
+}
+
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+
+.error-message {
+    color:red;
+}
+
+#mainmenu {
+    justify-content: space-between;
+}
+
+.quantity-cell {
+    width: 150px;
+    display: flex;
+}
+
+.quantity-input {
+    width: 50px;
+    margin: 0 5px;
+}
+
+.quantity-button {
+    width: 35px;
+}
